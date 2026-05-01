@@ -1,0 +1,5 @@
+.env
+node_modules
+idb
+config.json
+package-lock.json

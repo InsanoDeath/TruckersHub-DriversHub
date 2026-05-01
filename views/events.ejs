@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        <%= config.vtcName %>
+    </title>
+    
+    <%- include("../partials/head.ejs") %>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+        <%- include("../partials/sidebar") %>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <%- include("../partials/header") %>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <!-- Row -->
+            <div class="row row-sm">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="row" id="wrap">
+                                <div class="col-xl-12" id="calendar-wrap">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Row -->
+            <footer class="footer pt-3">
+                <%- include("../partials/footer") %>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script src="/js/plugins/dragula/dragula.min.js"></script>
+    <script src="/js/plugins/jkanban/jkanban.js"></script>
+    <script src="/js/plugins/chartjs.min.js"></script>
+    <script src="/js/plugins/threejs.js"></script>
+    <script src="/js/plugins/orbit-controls.js"></script>
+    <script src="/js/plugins/fullcalendar.min.js"></script>
+
+    <script>
+        e = [],
+
+        "<% for (var i = 0; i < events.length; i++) { %>"
+            var eventsData = {
+                id: "<%= events[i].id %>",
+                title: "<%= events[i].name %>",
+                start: "<%= events[i].start_at %>",
+                url: "https://truckersmp.com/events/<%= events[i].id %>",
+                className: "bg-gradient-primary"
+            }
+            e.push(eventsData)
+        "<% } %>"
+
+        initCalendar();
+
+        function initCalendar() {
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                // plugins: ["interaction", "dayGrid", "timeGrid"],
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay",
+                },
+                editable: false,
+                droppable: false,
+                navLinks: true,
+                eventLimit: false,
+                weekNumberCalculation: "ISO",
+                displayEventEnd: true,
+                lazyFetching: true,
+                selectable: true,
+                events: e,
+            });
+
+            calendar.render();
+        }
+    </script>
+</body>
+
+</html>

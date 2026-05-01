@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        Settings | <%= config.vtcName %>
+    </title>
+    
+    <%- include("../partials/head.ejs") %>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+        <%- include("../partials/sidebar") %>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <%- include("../partials/header") %>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#profile" role="tab">
+                                        <span class="d-none d-md-block">Profile</span>
+                                        <span class="d-block d-md-none">
+                                            <i class="mdi mdi-home-variant h5"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#security" role="tab">
+                                        <span class="d-none d-md-block">Security</span>
+                                        <span class="d-block d-md-none">
+                                            <i class="mdi mdi-account h5"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#connections" role="tab">
+                                        <span class="d-none d-md-block">Connections</span>
+                                        <span class="d-block d-md-none">
+                                            <i class="mdi mdi-email h5"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active p-3" id="profile" role="tabpanel">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6>Profile Settings</h6>
+                                            <div class="d-flex" style="margin-bottom: 50px;">
+                                                <a href="#" class="me-25">
+                                                    <img src="/<%= data.avatar %>" id="account-upload-img"
+                                                        class="uploadedAvatar rounded me-50" alt="profile image"
+                                                        height="100" width="100">
+                                                </a>
+
+                                                <div class="d-flex align-items-end mt-75 ms-1">
+                                                    <div>
+                                                        <form action="/settings/avatar" method="POST"
+                                                            id="avatarform" enctype="multipart/form-data">
+                                                            <input type="file" id="avatar" name="avatar"
+                                                                accept="image/*" required="" class="d-none">
+                                                            <label for="avatar" id="labelavatar"
+                                                                class="btn btn-sm btn-primary mb-75 me-75 waves-effect waves-float waves-light">Upload</label>
+                                                            <a href="/settings/avatar/remove">
+                                                                <button type="button" id="account-reset"
+                                                                    class="btn btn-sm btn-outline-secondary mb-75 waves-effect">Reset</button>
+                                                            </a>
+                                                        </form>
+                                                        <p class="mb-0">Allowed file types: png, jpg, jpeg upto
+                                                            2 mb.</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="username">Username</label>
+                                                    <input type="username" class="form-control" id="username"
+                                                        name="username" value="<%= data.username %>" required>
+                                                </div>
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="email">Email</label>
+                                                    <input type="email" class="form-control" id="email"
+                                                        name="email" value="<%= data.email %>" required>
+                                                </div>
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="country">Country</label>
+                                                    <select id="country" name="country" required
+                                                        class="select2 form-select">
+                                                        <option value="0" selected disabled>Please
+                                                            select</option>
+                                                        <% for(var i=0; i < country.length; i++) { %>
+                                                            <% if
+                                                                (country[i].id==data.countryCode.replace("en-", ""
+                                                                )) { %>
+                                                                <option value="<%= country[i].id %>" selected>
+                                                                    <%= country[i].name %>
+                                                                </option>
+                                                                <% } else { %>
+                                                                    <option value="<%= country[i].id %>">
+                                                                        <%= country[i].name %>
+                                                                    </option>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="submit" id="profileSubmit"
+                                                        class="btn btn-primary mt-1 me-1 waves-effect waves-float waves-light">Save
+                                                        changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane p-3" id="security" role="tabpanel">
+                                    <h4 class="card-title">Change Password</h4>
+                                    <div class="card-body pt-1">
+                                        <form action="javascript:void()" id="passwordForm">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="cpassword">Current
+                                                        password</label>
+                                                    <div
+                                                        class="input-group form-password-toggle input-group-merge">
+                                                        <input type="password" class="form-control"
+                                                            id="cpassword" name="cpassword"
+                                                            placeholder="Enter current password" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="npassword">New
+                                                        Password</label>
+                                                    <div
+                                                        class="input-group form-password-toggle input-group-merge">
+                                                        <input type="password" id="npassword" name="npassword"
+                                                            class="form-control"
+                                                            placeholder="Enter new password" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 mb-1">
+                                                    <label class="form-label" for="repassword">Retype
+                                                        New Password</label>
+                                                    <div
+                                                        class="input-group form-password-toggle input-group-merge">
+                                                        <input type="password" class="form-control"
+                                                            id="repassword" name="repassword" value=""
+                                                            placeholder="Confirm your new password" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="submit" id="passwordSubmit"
+                                                        class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Save
+                                                        changes</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane p-3" id="connections" role="tabpanel">
+                                    <h4 style="margin-bottom: 50px;">Connections</h4>
+                                    <div class="col-4">
+                                        <h3>Discord</h3>
+                                        <% if(data.discord) { %>
+                                            <div class="card">
+                                                <div style="display: flex; align-items: center;">
+                                                    <img src="<%= data.discord.avatar %>" alt="Discord Avatar"
+                                                        style="height: 50px; width: 50px; margin-right: 10px; border-radius: 10px 0 0 10px;">
+                                                    <span style="margin-right: 30px;">
+                                                        <%= data.discord.name %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <% } else { %>
+                                                <a href="/auth/discord">
+                                                    <img src="/img/discordconnect.png"
+                                                        alt="Discord Connect">
+                                                </a>
+                                                <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer pt-3">
+                <%- include("../partials/footer") %>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script src="/js/plugins/dragula/dragula.min.js"></script>
+    <script src="/js/plugins/jkanban/jkanban.js"></script>
+    <script src="/js/plugins/chartjs.min.js"></script>
+    <script src="/js/plugins/threejs.js"></script>
+    <script src="/js/plugins/orbit-controls.js"></script>
+
+    <script src="/sweetalert2/sweetalert2.js"></script>
+    <script src="/myjs/settings.js"></script>
+</body>
+
+</html>

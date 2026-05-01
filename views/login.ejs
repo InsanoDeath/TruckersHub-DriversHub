@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        <%= config.vtcName %> | login
+    </title>
+    <%- include("../partials/head.ejs") %>
+</head>
+
+<body class="bg-gray-100" style="overflow: hidden;">
+    <main class="main-content  mt-0">
+        <div class="container">
+            <div class="row mt-5 justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header text-center pt-4">
+                            <h5>Sign in</h5>
+                        </div>
+                        <!-- <div class="row px-xl-5 px-sm-4 px-3 justify-content-center">
+                            <div class="col-3 px-1">
+                                <a class="btn btn-outline-light w-100" href="javascript:;">
+                                    <i class="fa-brands fa-discord" style="color: #7289da !important;"></i>
+                                </a>
+                            </div>
+                            <div class="col-3 px-1">
+                                <a class="btn btn-outline-light w-100" href="javascript:;">
+                                    <i class="fa-brands fa-steam" style="color: #7289da !important;"></i>
+                                </a>
+                            </div>
+                        </div> -->
+                        <div class="card-body">
+                            <form method="POST" action="/login" class="text-start">
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control" name="password" placeholder="Password"
+                                        aria-label="Password">
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                    <label class="form-check-label" for="remember">Remember me</label>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign in</button>
+                                </div>
+                                <div class="mb-2 position-relative text-center">
+                                    <p
+                                        class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                        or
+                                    </p>
+                                </div>
+                                <div class="text-center">
+                                    <a href="/register" class="btn bg-gradient-dark w-100 mt-2 mb-4">Sign up</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer py-5" style="position: fixed; width: 100%; bottom: 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 mx-auto text-center mt-1">
+                    <p class="mb-0 text-secondary">
+                        Copyright ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> by <a href="https://insanodev.com/" target="_blank">InsanoDeath</a>.
+                    </p>
+                </div>
+                <div class="col-8 mx-auto text-center mt-1">
+                    <p class="mb-0 text-secondary">
+                        Powered by
+                        <img src="https://static.truckershub.in/images/logo.png" alt="TruckersHub Logo" style="width: 20px;">
+                        <a href="https://truckershub.in/" target="_blank">TruckersHub</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <%- include("../partials/script") %>
+</body>
+
+</html>

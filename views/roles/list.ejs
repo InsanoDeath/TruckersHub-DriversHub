@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        Roles List | <%= config.vtcName %>
+    </title>
+    
+    <%- include("../../partials/head.ejs") %>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+        <%- include("../../partials/sidebar") %>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <%- include("../../partials/header") %>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between" style="width: 100%;">
+                                <h4 class="card-title">Roles List</h4>
+                                <div>
+                                    <% if (["manageRoles", "createRoles"].find(f => perms.includes(f)) || data.userID == 1) { %>
+                                        <a href="/roles/create" class="btn btn-success btn-rounded mb-2 me-4 _effect--ripple waves-effect waves-light">
+                                            Create Role
+                                        </a>
+                                    <% } %>
+                                    <% if (["manageRoles", "assignRoles"].find(f => perms.includes(f)) || data.userID == 1) { %>
+                                        <a href="/roles/assign" class="btn btn-secondary btn-rounded mb-2 me-4 _effect--ripple waves-effect waves-light">
+                                            Assign Role
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="members">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Members</th>
+                                            <th>Created At</th>
+                                            <th>Updated At</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < roles.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= roles[i].id %>
+                                                </td>
+                                                <td>
+                                                    <font color="<%= roles[i].color %>">
+                                                        <%= roles[i].name %>
+                                                    </font>
+                                                </td>
+                                                <td>
+                                                    <%= members.filter(f => f?.allRoles?.includes(parseInt(roles[i].id)))?.length || 0 %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(roles[i].createdTimestamp).toDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(roles[i].updatedTimestamp).toDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%# if (["manageRoles", "updateRoles"].find(f => perms.includes(f))) { %>
+                                                        <a href="/roles/edit/<%= roles[i].id %>">
+                                                            <button type="button" class="btn btn-primary waves-effect waves-light">
+                                                                Details
+                                                            </button>
+                                                        </a>
+                                                    <%# } %>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer pt-3">
+                <%- include("../../partials/footer") %>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script src="/js/plugins/dragula/dragula.min.js"></script>
+    <script src="/js/plugins/jkanban/jkanban.js"></script>
+    <script src="/js/plugins/chartjs.min.js"></script>
+    <script src="/js/plugins/threejs.js"></script>
+    <script src="/js/plugins/orbit-controls.js"></script>
+</body>
+
+</html>

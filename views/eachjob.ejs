@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        Job #<%= job.jobID %> | <%= config.vtcName %>
+    </title>
+    
+    <%- include("../partials/head.ejs") %>
+    
+    <script src="/map/leaflet.js"></script>
+    <link rel="stylesheet" href="/map/style.css" />
+    <link rel="stylesheet" href="/map/leaflet.css" />
+    <link rel="stylesheet" href="/map/draw.css" />
+    <script type="text/javascript" src="/map/draw.js"></script>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+        <%- include("../partials/sidebar") %>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <%- include("../partials/header") %>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <!--Row-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="invoice-title">
+                                        <h4 class="float-end font-size-16">
+                                            <strong>
+                                                Delivery # <%= job.jobID %>
+                                            </strong>
+                                        </h4>
+                                        <h3>
+                                            <% if (["manageJobs"].find(f => perms.includes(f))) { %>
+                                                <button type="button" onclick="deleteJob()"
+                                                    class="btn btn-danger waves-effect waves-light">
+                                                    Delete Job
+                                                </button>
+                                            <% } %>
+                                        </h3>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <address>
+                                                <strong>Delivery By:</strong><br>
+                                                <img src="<%= job.driver.avatar %>" alt="logo"
+                                                    height="24" />
+                                                <%= job.driver.username %>
+                                            </address>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <address>
+                                                <strong>Delivery Date:</strong><br>
+                                                <%= new Date(job.realtime.end).toUTCString() %>
+                                            </address>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mt-4">
+                                            <address>
+                                                <strong>Shipped From:</strong><br>
+                                                City: <%= job.source.city.name %><br>
+                                                    Company: <%= job.source.company.name %><br>
+                                                        Time: <%= new Date(job.realtime.start).toUTCString() %>
+                                            </address>
+                                        </div>
+                                        <div class="col-6 mt-4 text-end">
+                                            <address>
+                                                <strong>Shipped To:</strong><br>
+                                                City: <%= job.destination.city.name %><br>
+                                                    Company: <%= job.destination.company.name %><br>
+                                                        Time: <%= new Date(job.realtime.end).toUTCString() %>
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div>
+                                        <div class="p-2">
+                                            <h3>
+                                                <strong>Delivery summary</strong>
+                                            </h3>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 table-responsive">
+                                                <table class="table">
+                                                    <thead></thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Planned Distance</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.plannedDistance).toLocaleString()
+                                                                    %> km
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Distance Driven</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.distanceDriven).toLocaleString()
+                                                                    %> km
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Points Earned</td>
+                                                            <td class="text-center">
+                                                                <%= job.points ? job.points.toFixed(2) : 0 %>
+                                                                    Points
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Income</td>
+                                                            <td class="text-center">
+                                                                € <%= Math.round(job.income).toLocaleString() %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>XP</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.earnedXP).toLocaleString() %> XP
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Special Transport</td>
+                                                            <td class="text-center">
+                                                                <%= job.isSpecial ? "Yes" : "No" %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Game</td>
+                                                            <td class="text-center">
+                                                                <%= job.game.id.toUpperCase() %>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-6 table-responsive">
+                                                <table class="table">
+                                                    <thead></thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Cargo</td>
+                                                            <td class="text-center">
+                                                                <%= job.cargo.name %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cargo Mass</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.cargo.mass / 1000) %> t
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cargo Damage</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.cargo.damage * 100) %>%
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Fuel Burnt</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.fuel.burned).toLocaleString()
+                                                                    %> l
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Truck</td>
+                                                            <td class="text-center">
+                                                                <%= job.truck.name %>
+                                                                    <%= job.truck.model.name %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Top Speed</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.topSpeed * 3.6) %>
+                                                                    km/h
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Average Speed</td>
+                                                            <td class="text-center">
+                                                                <%= Math.round(job.avgSpeed * 3.6) %> km/h
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- <div class="d-print-none">
+                                                <div class="float-end">
+                                                    <a href="javascript:window.print()"
+                                                        class="btn btn-success waves-effect waves-light"><i
+                                                            class="fa fa-print"></i></a>
+                                                    <a href="#"
+                                                        class="btn btn-primary waves-effect waves-light">Send</a>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 card mt-5">
+                                    <div class="card-header">
+                                        <h4 class="card-title">
+                                            <i class="fa fa-map-pin text-primary"></i> &nbsp;&nbsp;
+                                            Map Route
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <button id="play">
+                                            <i id="playi" class="fa fa-play"></i>
+                                            <p id="speed">0 km/h</p>
+                                        </button>
+                                        <div id="mapts" style="background-color:#0e1c27!important"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer pt-3">
+                <%- include("../partials/footer") %>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script src="/js/plugins/dragula/dragula.min.js"></script>
+    <script src="/js/plugins/jkanban/jkanban.js"></script>
+    <script src="/js/plugins/chartjs.min.js"></script>
+    <script src="/js/plugins/threejs.js"></script>
+    <script src="/js/plugins/orbit-controls.js"></script>
+
+    <script>
+        function deleteJob() {
+            fetch("/jobs/<%= job.jobID %>", {
+                method: "DELETE"
+            }).then((body) => {
+                return body.json()
+            }).then((json) => {
+                if(!json.error) {
+                    window.location = "/jobs";
+                } else {
+                    alert(json.message);
+                }
+            }).catch((err) => {
+                console.log(err)
+                alert(err)
+            })
+        }
+    </script>
+    <script>
+        const jobID = parseInt("<%= job.jobID %>");
+        var path = `<%- JSON.stringify([]) %>`;
+    </script>
+    
+    <script src="<%= job.game.id == 'ets2' ? 'https://map.truckershub.in/ets2/calc.js' : 'https://map.truckershub.in/ats/calc.js' %>"></script>
+    <script src="<%= job.game.id == 'ets2' ? '/myjs/jobets2.js' : '/myjs/jobats.js' %>"></script>
+</body>
+
+</html>

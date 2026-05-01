@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <title>
+        Create Role | <%= config.vtcName %>
+    </title>
+    
+    <%- include("../../partials/head.ejs") %>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3" id="sidenav-main">
+        <%- include("../../partials/sidebar") %>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <%- include("../../partials/header") %>
+        </nav>
+
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 mt-4">
+                    <form action="/roles/create" method="post" class="needs-validation">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Create Role</h4>
+                            </div>
+                            <div class="card-body">
+                                <h5>Role</h5>
+                                <div class="row mb-4">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="roleName" class="required">Role Name</label>
+                                        <input type="text" class="form-control" id="roleName" name="roleName"
+                                            required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="color" class="required">Role Colour</label>
+                                        <input type="color" class="form-control" id="color" name="color" required
+                                            style="height: 60%;">
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="order" class="required">Role Order</label>
+                                    <input type="number" class="form-control" id="order" name="order">
+                                </div>
+    
+                                <%- include("../../partials/permissions") %>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" id="submit"
+                                    class="btn btn-success btn-rounded mb-2 me-4 _effect--ripple waves-effect waves-light">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <footer class="footer pt-3">
+                <%- include("../../partials/footer") %>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/js/plugins/smooth-scrollbar.min.js"></script>
+
+    <script src="/js/plugins/dragula/dragula.min.js"></script>
+    <script src="/js/plugins/jkanban/jkanban.js"></script>
+    <script src="/js/plugins/chartjs.min.js"></script>
+    <script src="/js/plugins/threejs.js"></script>
+    <script src="/js/plugins/orbit-controls.js"></script>
+</body>
+
+</html>

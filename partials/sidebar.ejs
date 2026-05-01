@@ -1,0 +1,98 @@
+<div class="sidenav-header">
+    <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
+    <a class="navbar-brand m-0" href="/" target="_blank">
+        <img src="<%= config.avatar %>" class="navbar-brand-img h-100" alt="<%= config.vtcName %> Logo">
+        <span class="ms-1 font-weight-bold">
+            <%= config.vtcShortName %>
+        </span>
+    </a>
+</div>
+<hr class="horizontal dark mt-0">
+<div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/">
+                <i class="fa-solid fa-house"></i>
+                <span class="sidenav-normal">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/events">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="sidenav-normal">Events</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/leaderboard">
+                <i class="fa-solid fa-trophy"></i>
+                <span class="sidenav-normal">Leaderboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/members">
+                <i class="fa-solid fa-users"></i>
+                <span class="sidenav-normal">Members</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/jobs">
+                <i class="fa-solid fa-truck"></i>
+                <span class="sidenav-normal">Jobs</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/map/ets2">
+                <i class="fa-solid fa-map"></i>
+                <span class="sidenav-normal">Live Map</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/news">
+                <i class="fa-solid fa-newspaper"></i>
+                <span class="sidenav-normal">News</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="https://truckershub.in/download" target="_blank">
+                <i class="fa-solid fa-download"></i>
+                <span class="sidenav-normal">Download Tracker</span>
+            </a>
+        </li>
+        <% if (data.isStaff || data.userID==1) { %>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#adminpanel" class="nav-link " aria-controls="adminpanel"
+                    role="button" aria-expanded="false">
+                    <i class="fa-solid fa-lock"></i>
+                    <span class="nav-link-text ms-1">Admin Pannel</span>
+                </a>
+                <div class="collapse " id="adminpanel">
+                    <ul class="nav ms-4 ps-3">
+                        <% if (["manageRoles", "viewRoles" , "createRoles" , "assignRoles" ].find(f=> perms.includes(f))
+                            || data.userID == 1) { %>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/roles/edit">
+                                    <span class="sidenav-mini-icon"> M </span>
+                                    <span class="sidenav-normal"> Manage Roles </span>
+                                </a>
+                            </li>
+                            <% } %>
+                    </ul>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+</div>
+
+<script>
+    const windowLocation = window.location.href.split("?")[0];
+    const splitLocaltion = windowLocation.split("://")[1].split("/").slice(1).join("/");
+    document.querySelectorAll(".nav-item").forEach(li => {
+        if(!splitLocaltion && li.children[0].href == windowLocation) {
+            li.children[0].classList.add("active");
+
+        } else if (splitLocaltion && !li.children[0].href.includes("adminpanel") && li.children[0].href.includes(splitLocaltion)) {
+            li.children[0].classList.add("active");
+        }
+    })
+</script>

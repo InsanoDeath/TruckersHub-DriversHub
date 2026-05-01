@@ -1,0 +1,11 @@
+.dark-version .form-control,
+.dark-version .form-select {
+    color: #ffffff !important;
+    background-color: #383f6b !important;
+}
+
+.dark-version .nav-tabs .nav-item.show .nav-link,
+.dark-version .nav-tabs .nav-link.active {
+    color: var(--bs-nav-tabs-link-active-bg) !important;
+    background-color: var(--bs-nav-tabs-link-active-color) !important;
+}
