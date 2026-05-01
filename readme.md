@@ -1,7 +1,7 @@
 # 🚛 DriversHub
 
 A modern, customizable **DriversHub system for VTCs (Virtual Trucking Companies)** built to integrate seamlessly with TruckersHub.
-DriversHub provides a clean dashboard for drivers, real-time statistics, job tracking, and community engagement tools — all in one place.
+DriversHub provides a clean dashboard for drivers, real-time statistics, job tracking, and community engagement tools — all in one place for Euro Truck Simulator 2 and American Truck Simulator.
 
 ---
 
