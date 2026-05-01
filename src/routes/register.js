@@ -14,13 +14,21 @@ router.get("/register", (req, res) => {
 })
 
 router.get("/auth/register/associate", passport.authenticate("steam"))
-router.get("/redirect", passport.authenticate("steam", {
-    failureRedirect: "/fobidden",
-    successRedirect: "/auth/register"
-}), function (req, res) {
-    res.sendStatus(200)
-    // res.redirect('back')
-})
+router.get("/redirect", (req, res, next) => {
+    passport.authenticate("steam", (err, user, info) => {
+        if (err) return next(err);
+
+        if (!user) {
+            return res.redirect(`/forbidden?message=${encodeURIComponent(info?.message || 'Forbidden')}`);
+        }
+
+        req.logIn(user, (err) => {
+            if (err) return next(err);
+            return res.redirect("/auth/register");
+        });
+
+    })(req, res, next);
+});
 
 router.get("/auth/register", (req, res) => {
     if (req.isUnauthenticated()) {
@@ -33,15 +41,10 @@ router.get("/auth/register", (req, res) => {
     }
 })
 
-router.get("/fobidden", (req, res, next) => {
-    const error = new Error("That Steam ID already exists and is already registered")
-    error.status = 403;
-    return next(error)
-})
-
 router.get("/forbidden", (req, res) => {
-    res.redirect("/login?message=Credentials entered does not match please try again")
-})
+    const message = req.query.message || "Access denied";
+    res.send({ error: true, success: false, message: message });
+});
 
 router.post("/registration", (req, res) => {
     const { username, email, password, country } = req.body;

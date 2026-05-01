@@ -54,7 +54,7 @@ class strategy {
             const data = dbs.logins.get("logins") || [];
             const ID = data.find(l => l.steamID === id) || false;
             if (ID) {
-                return done(false, null, { message: "That Steam ID already exists and is already registered" })
+                return done(null, false, { message: "That Steam ID already exists and is already registered" })
             }
 
             const embed = new Discord.EmbedBuilder()
@@ -70,12 +70,12 @@ class strategy {
                 .setThumbnail(photos[0].value)
 
             try {
-                const webhook = new Discord.WebhookClient({ url: process.env.logwebhook }).catch((err) => { });
+                const webhook = new Discord.WebhookClient({ url: process.env.logwebhook });
 
                 await webhook.edit({
                     name: "DriversHub Logger",
                     avatar: config.avatar
-                }).catch((err) => { });
+                });
                 webhook.send({ embeds: [embed] }).catch((err) => { });
             } catch (error) {
                 console.log(error);
@@ -109,7 +109,7 @@ class strategy {
                                     ])
 
                                 try {
-                                    const webhook = new Discord.WebhookClient({ url: process.env.logwebhook }).catch((err) => { });
+                                    const webhook = new Discord.WebhookClient({ url: process.env.logwebhook });
 
                                     await webhook.edit({
                                         name: "DriversHub Logger",
@@ -126,14 +126,14 @@ class strategy {
 
                         done(null, id);
                     } else {
-                        done(false, null, { message: `You are not a member of ${config.vtcName} on TMP` })
+                        done(null, false, { message: `You are not a member of ${config.vtcName} on TruckersMP` })
                     };
                 } else {
-                    done(json.data.descriptor, null, { message: String(json.data.descriptor) });
+                    done(null, false, { message: String(json.data.descriptor) });
                 };
             }).catch(error => {
                 console.log(error);
-                done(error, null, { message: String(error) });
+                done(null, false, { message: String(error) });
             });
         }));
     };

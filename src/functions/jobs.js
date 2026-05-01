@@ -60,7 +60,7 @@ class Jobs {
                 .setFooter({ text: `Tracker version: ${data.clientVersion}` })
 
             try {
-                const webhook = new Discord.WebhookClient({ url: process.env.jobwebhook }).catch((err) => { });
+                const webhook = new Discord.WebhookClient({ url: process.env.jobwebhook });
 
                 await webhook.edit({
                     name: "Job Logger",

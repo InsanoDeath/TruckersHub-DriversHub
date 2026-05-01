@@ -269,7 +269,7 @@ router.get("/user/:userID/remove", async (req, res, next) => {
         .setTitle(userData?.username + "'s Account was deactivated!")
 
     try {
-        const webhook = new Discord.WebhookClient({ url: process.env.logwebhook }).catch((err) => { });;
+        const webhook = new Discord.WebhookClient({ url: process.env.logwebhook });;
 
         await webhook.edit({
             name: "DriversHub Logger",

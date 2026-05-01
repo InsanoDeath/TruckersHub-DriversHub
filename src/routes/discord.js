@@ -65,7 +65,7 @@ router.get('/auth/discord/callback', (req, res, next) => {
                 .setThumbnail(config.avatar)
 
             try {
-                const webhook = new Discord.WebhookClient({ url: process.env.logwebhook }).catch((err) => { });
+                const webhook = new Discord.WebhookClient({ url: process.env.logwebhook });
 
                 await webhook.edit({
                     name: "DriversHub Logger",
